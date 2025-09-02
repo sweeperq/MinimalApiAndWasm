@@ -12,9 +12,21 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors("Api");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "API v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
 app.MapGet("/hello", () => "Hello World!").WithTags("Hello");
 

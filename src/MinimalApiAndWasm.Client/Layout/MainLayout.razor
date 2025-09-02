@@ -1,3 +1,53 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
+@implements IDisposable
 
-@Body
+<div id="wrapper" class="@(navToggled ? "nav-toggled" : "")">
+    <header id="header">
+        <a href="/" class="brand">Application Name</a>
+        <button id="nav-button" @onclick="ToggleNav">&equiv;</button>
+    </header>
+    <nav id="navigation">
+        <ul>
+            <li><NavLink href="/" Match="NavLinkMatch.All">Dashboard</NavLink></li>
+            <li><NavLink href="/sample">Sample</NavLink></li>
+        </ul>
+    </nav>
+    <main id="body">
+        @Body
+    </main>
+    <footer id="footer">
+        <span>&copy; @DateTime.Now.Year Your Company</span>
+    </footer>
+    <div id="nav-overlay" @onclick="ToggleNav"></div>
+</div>
+
+@code {
+    bool navToggled = false;
+
+    void ToggleNav()
+    {
+        navToggled = !navToggled;
+    }
+
+    void ResetNav()
+    {
+        navToggled = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        navManager.LocationChanged += LocationChanged;
+    }
+
+    public void Dispose()
+    {
+        navManager.LocationChanged -= LocationChanged;
+    }
+
+    void LocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        ResetNav();
+        StateHasChanged();
+    }
+}

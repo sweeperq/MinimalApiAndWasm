@@ -7,6 +7,7 @@ This repository contains a minimal example of a .Net 9 Minimal API backend with 
 - Entity Framework Core with SQL Server
 - Automated database migrations
 - Stand-alone Blazor WebAssembly client
+- Responsive UI (CSS-only, no framework)
 
 ## Coming Soon
 - (API) Unique and referential integrity constraint exception handling

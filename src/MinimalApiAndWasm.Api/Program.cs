@@ -1,4 +1,8 @@
+using MinimalApiAndWasm.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAppData(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -29,5 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/hello", () => "Hello World!").WithTags("Hello");
+
+await app.MigrateDbContextAsync();
 
 app.Run();

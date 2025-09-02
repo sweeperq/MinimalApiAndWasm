@@ -1,10 +1,11 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager navManager
+@inject IConfiguration configuration
 @implements IDisposable
 
 <div id="wrapper" class="@(navToggled ? "nav-toggled" : "")">
     <header id="header">
-        <a href="/" class="brand">Application Name</a>
+        <a href="/" class="brand">@configuration["ApplicationName"]</a>
         <button id="nav-button" @onclick="ToggleNav">&equiv;</button>
     </header>
     <nav id="navigation">
@@ -17,7 +18,7 @@
         @Body
     </main>
     <footer id="footer">
-        <span>&copy; @DateTime.Now.Year Your Company</span>
+        <span>&copy; @DateTime.Now.Year @configuration["CompanyName"]</span>
     </footer>
     <div id="nav-overlay" @onclick="ToggleNav"></div>
 </div>

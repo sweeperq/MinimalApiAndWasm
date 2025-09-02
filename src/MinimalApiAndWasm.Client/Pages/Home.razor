@@ -1,0 +1,21 @@
+﻿@page "/"
+@inject HttpClient httpClient
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<p>Welcome to your new app.</p>
+
+<h2>Remote Content</h2>
+
+<p>@remoteContent</p>
+
+@code {
+    string? remoteContent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        remoteContent = await httpClient.GetStringAsync("/hello");
+    }
+}

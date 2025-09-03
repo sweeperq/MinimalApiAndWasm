@@ -1,8 +1,10 @@
-using MinimalApiAndWasm.Api.Data;
+using MinimalApiAndWasm.Api.Features.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAppData(builder.Configuration);
+builder.Services.AddAppDataServices(builder.Configuration);
+
+builder.Services.AddAppIdentityServices();
 
 builder.Services.AddCors(options =>
 {
@@ -20,6 +22,8 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors("Api");
 
 if (app.Environment.IsDevelopment())
@@ -32,6 +36,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+var identityGroup = app.MapGroup("/identity").WithTags("Identity");
+identityGroup.MapIdentityApi<User>();
 app.MapGet("/hello", () => "Hello World!").WithTags("Hello");
 
 await app.MigrateDbContextAsync();
